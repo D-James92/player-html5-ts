@@ -44,6 +44,24 @@ var PlayerMS;
 })(PlayerMS || (PlayerMS = {}));
 var PlayerMS;
 (function (PlayerMS) {
+    var Classes;
+    (function (Classes) {
+        var SvgIcons = /** @class */ (function () {
+            function SvgIcons() {
+            }
+            SvgIcons.basePath = 'assets/svg/';
+            SvgIcons.iconPlay = SvgIcons.basePath + 'ic_play_normal.svg';
+            SvgIcons.iconPause = SvgIcons.basePath + 'ic_pause_normal.svg';
+            SvgIcons.iconStop = SvgIcons.basePath + 'ic_pause_normal.svg';
+            SvgIcons.iconPrevious = SvgIcons.basePath + 'ic_previous_normal.svg';
+            SvgIcons.iconNext = SvgIcons.basePath + 'ic_next_normal.svg';
+            return SvgIcons;
+        }());
+        Classes.SvgIcons = SvgIcons;
+    })(Classes = PlayerMS.Classes || (PlayerMS.Classes = {}));
+})(PlayerMS || (PlayerMS = {}));
+var PlayerMS;
+(function (PlayerMS) {
     var Components;
     (function (Components) {
         var BaseComponent = /** @class */ (function () {
@@ -60,16 +78,41 @@ var PlayerMS;
 (function (PlayerMS) {
     var Components;
     (function (Components) {
+        var SvgIcons = PlayerMS.Classes.SvgIcons;
         var PlayPauseComponent = /** @class */ (function (_super) {
             __extends(PlayPauseComponent, _super);
             function PlayPauseComponent() {
                 return _super.call(this) || this;
             }
             PlayPauseComponent.prototype.Generate = function () {
-                var el = document.createElement('span');
-                el.style.color = this._colorIconText.GetCode();
-                el.innerHTML = "test";
-                return el;
+                // element
+                var ic = document.createElement('img');
+                ic.id = 'ic_playpause';
+                // styles
+                ic.style.color = this._colorIconText.GetCode();
+                ic.style.width = '20px';
+                ic.style.height = '20px';
+                // attributes
+                ic.setAttribute('active', '0');
+                ic.setAttribute('src', SvgIcons.iconPlay);
+                // events
+                ic.addEventListener("click", this.PlayPauseEvent);
+                // return
+                return ic;
+            };
+            PlayPauseComponent.prototype.PlayPauseEvent = function () {
+                var ic = document.getElementById('ic_playpause');
+                var active = ic.getAttribute('active');
+                if (active == '0') {
+                    ic.setAttribute('src', SvgIcons.iconPause);
+                    ic.setAttribute('active', '1');
+                    // TODO PLAY VIDEO
+                }
+                else {
+                    ic.setAttribute('src', SvgIcons.iconPlay);
+                    ic.setAttribute('active', '0');
+                    // TODO PAUSE VIDEO
+                }
             };
             return PlayPauseComponent;
         }(Components.BaseComponent));
